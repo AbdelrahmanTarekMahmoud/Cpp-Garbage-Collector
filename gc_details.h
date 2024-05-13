@@ -1,28 +1,20 @@
-// This class defines an element that is stored
-// in the garbage collection information list.
-//
+/*
+This class stores information about a memory block managed by the garbage collector
+*/
 template <class T>
 class PtrDetails
 {
   public:
-    unsigned refcount; // current reference count
+    unsigned refcount; //  reference count 
     T *memPtr;         // pointer to allocated memory
-    /* isArray is true if memPtr points
-to an allocated array. It is false
-otherwise. */
-    bool isArray; // true if pointing to array
-    /* If memPtr is pointing to an allocated
-array, then arraySize contains its size */
+    bool isArray; // checks if it is array or not (for deleting [] or just delete)
     unsigned arraySize; // size of array
-    // Here, mPtr points to the allocated memory.
-    // If this is an array, then size specifies
-    // the size of the array.
 
     PtrDetails(T *p , int size = 0)
     {
-        refcount =1 ;
+        refcount =1 ; //this class isnt responsible for the increasing the refcount 
         memPtr = p;
-        if(size != 0)
+        if(size != 0) // here we check the size to decide if its array or not (for deleteing purpose)
         {
             isArray = true;
             arraySize =size;
@@ -39,6 +31,5 @@ template <class T>
 bool operator==(const PtrDetails<T> &ob1,
                 const PtrDetails<T> &ob2)
 {
-    // TODO: Implement operator==
     return ob1.memPtr == ob2.memPtr;
 }
