@@ -3,7 +3,6 @@
 // underlying object.
 class OutOfRangeExc
 {
-    // Add functionality if needed by your application.
     OutOfRangeExc()
     {
         std::cout<<"OUT OF RANGE" << '\n';
