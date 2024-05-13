@@ -14,9 +14,9 @@ private:
     // refContainer maintains the garbage collection list.
     static std::list<PtrDetails<T> > refContainer;
     // addr points to the allocated memory to which this Pointer pointer currently points.
-    T *addr;
-    bool isArray;
-    unsigned arraySize; // size of the array
+    T *addr{nullptr};
+    bool isArray{false};
+    unsigned arraySize{0}; // size of the array
     static bool first; // true when first Pointer is created
 
     // Return an iterator to pointer details in refContainer.
