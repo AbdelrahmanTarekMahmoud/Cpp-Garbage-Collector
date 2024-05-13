@@ -10,25 +10,19 @@ class OutOfRangeExc
 };
 
 
-// An iterator-like class for cycling through arrays
-// that are pointed to by GCPtrs. Iter pointers
-// ** do not ** participate in or affect garbage
-// collection. Thus, an Iter pointing to
-// some object does not prevent that object
-// from being recycled.
-//
+/*
+This iterator class provides functionality to iterate over elements pointed to by a Pointer object managing an array. 
+It doesn't participate in garbage collection and doesn't affect reference counts.
+*/
 template <class T>
 class Iter
 {
-    T *ptr;
-    // current pointer value
-    T *end;
-    // points to element one past end
-
-    T *begin;        // points to start of allocated array
-    unsigned length; // length of sequence
+    T *ptr; // current Position
+    T *end; // last position
+    T *begin; //first position
+    unsigned length; // length of current state
   public:
-    Iter()
+    Iter() //at first we initialize all with null and for sure no length is being set for now
     {
         ptr = end = begin = NULL;
         length = 0;
@@ -43,51 +37,47 @@ class Iter
     // Return length of sequence to which this
     // Iter points.
     unsigned size() { return length; }
-    // Return value pointed to by ptr.
-    // Do not allow out-of-bounds access.
+
+    // access the pointer(this version is for normal object (not pointer))
     T &operator*()
     {
         if ((ptr >= end) || (ptr < begin))
             throw OutOfRangeExc();
         return *ptr;
     }
-    // Return address contained in ptr.
-    // Do not allow out-of-bounds access.
+    // access the pointer(this version is for  pointers object (it returns the address))
     T *operator->()
     {
         if ((ptr >= end) || (ptr < begin))
             throw OutOfRangeExc();
         return ptr;
     }
-    // Prefix ++.
     Iter operator++()
     {
         ptr++;
         return *this;
     }
-    // Prefix --.
+    //Prefix Increment
     Iter operator--()
     {
         ptr--;
         return *this;
     }
-    // Postfix ++.
-    Iter operator++(int notused)
+    //Postfix Increment
+    Iter operator++(int PostFixPurpose)
     {
         T *tmp = ptr;
         ptr++;
         return Iter<T>(tmp, begin, end);
     }
-    // Postfix --.
-    Iter operator--(int notused)
+    Iter operator--(int PostFixPurpose)
     {
         T *tmp = ptr;
         ptr--;
         return Iter<T>(tmp, begin, end);
     }
     // Return a reference to the object at the
-    // specified index. Do not allow out-of-bounds
-    // access.
+    // specified index
     T &operator[](int i)
     {
         if ((i < 0) || (i >= (end - begin)))
