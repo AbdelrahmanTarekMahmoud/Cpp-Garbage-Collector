@@ -20,7 +20,6 @@ array, then arraySize contains its size */
 
     PtrDetails(T *p , int size = 0)
     {
-        // TODO: Implement PtrDetails
         refcount =1 ;
         memPtr = p;
         if(size != 0)
